@@ -38,7 +38,7 @@ UI和渲染引擎的中间层
 
 cookies, localStorage, IndexedDB, WebSQL 等等
 
-![顶层结构](./images/highlevel.png)
+![顶层结构](./images/highlevel.png "顶层结构")
 
 
 这里需要重点提到的一点：Chrome会同时运行多个渲染引擎实例，每一个Tab就是一个独立的渲染引擎，这也是Chrome的一个核心技术，当然对于内存不够的机器来说，不但不能很好的享受这带来的好处，还会觉得：尼玛，老子开几个页面就卡成🐶啦！
@@ -57,7 +57,7 @@ cookies, localStorage, IndexedDB, WebSQL 等等
 
 渲染引擎可能有多种，但是他们工作的主要流程大同小异的，看图说话：
 
-![主要流程](./images/mainflow.png)
+![主要流程](./images/mainflow.png "主要流程")
 
 首先渲染引擎将分析HTMl文档并转化为DOM节点树，它成为“内容树”，接着把CSS和这个节点树结合起来就成了“渲染树”，渲染树是包含着可视的一些属性颜色和维度等的方块，这些方块都按着自己的顺序排排坐在屏幕上！
 
@@ -67,9 +67,9 @@ cookies, localStorage, IndexedDB, WebSQL 等等
 
 我们这里必须非常明确一点细节，上述各个流程不是完全一步一步走完的，为了更好的用户体验，渲染引擎会尝试尽可能快的展现我们的画面，它不会等到所有的HMTL文档生产DOM树才渲染，布局和绘制。
 
-![webkit 主要流程细节](./images/webkitflow.png)
+![webkit 主要流程细节](./images/webkitflow.png "webkit具体流程细节")
 
-![gecko主要流程细节](./images/geckoflow.jpg)
+![gecko主要流程细节](./images/geckoflow.jpg "Gecko具体流程细节")
 
 上述来看，它们细节上有点差别，但是总体上表现是一致的，我们就不深究其中的差异了。
 
@@ -79,7 +79,7 @@ cookies, localStorage, IndexedDB, WebSQL 等等
 
 拆分概念上就是讲我们的文档翻译成代码可以使用的文档结构，拆分的结果常是能反映文档结构的节点树，常称为语法树，举个拆分表达式2 + 3 - 1的例子：
 
-![拆分实例](./images/parsing.png)
+![拆分实例](./images/parsing.png "拆分实例")
 
 那么拆分是根据什么东西拆分的呢？它总不能按照它的心情来拆分吧，它当然是有依据：格式化文档依据的语法规则。任何文档形成必要都要遵从一定的词法和语法规则，称为**Context-free grammar**，简称**CFG**,人类自然语言没有对应的语法，所以不能被常用的拆分机制来拆分。
 
@@ -93,7 +93,7 @@ cookies, localStorage, IndexedDB, WebSQL 等等
 
 **Parse**常将拆分工作分为两步：
 
-![拆分流程](./images/parse-flow.png)
+![拆分流程](./images/parse-flow.png "拆分流程")
 
 图上，我们能清晰地看到它的流程，了解就好。
 
