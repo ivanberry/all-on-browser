@@ -1,2 +1,5 @@
 # all-on-browser
-作为一个前端，怎么能不好好学习浏览器是什么呢？
+
+- [浏览器知识简要版](./how-browser-work.md)
+
+- [浏览器知识细节版](./all-about-browser.md)
