@@ -97,6 +97,95 @@ cookies, localStorage, IndexedDB, WebSQL 等等
 
 图上，我们能清晰地看到它的流程，了解就好。
 
+拆分是根据预定的语法来实现tokenizer，我们简单了解下。
+
+### HTML解析
+
+HTML解析器将HTML标记文档解析为解析树。
+
+#### 语法规范
+
+解析的规范是W3C规定，当前版本为HTML5，不过，HTML的解析和常见的解析语法不同，它们不是用常用的BNF等格式定义，常用的解析器都不能用来解析HTML标记语言。
+HTML语言由**DTD**来定义，但是这并不是*context free grammer*，HTML看起来跟很XML很像，但是却又很本质的区别，HTML是弱语言，甚至你的标签都可能没有闭合，
+但是却还是正常解析，这个很厉害，可能也是它一直流行的原因吧。
+
+#### HTML DTD
+
+DTD格式，来自于SGML语言家族,它包含有所有元素，属性等等。
+
+#### DOM
+
+HTML解析生产为DOM树，由元素和属性节点组成，DOM树是向外界（JS）展示的窗口，DOM树的根是*Document*对象，栗子🌰：
+
+```html
+<html>
+<body>
+<p>Hello world</p>
+<div><img src="path/to/image"></div>
+</body>
+</html>
+```
+
+上述代码会是解析成这个样子：
+
+![dom生成流程](./images/dommodel.png)
+
+![栗子DOM树](DOMtree.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
