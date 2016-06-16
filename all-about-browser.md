@@ -128,9 +128,44 @@ HTML解析生产为DOM树，由元素和属性节点组成，DOM树是向外界�
 
 上述代码会是解析成这个样子：
 
+![栗子DOM树](DOMtree.png)
+
+DOM树:
+
+![DOM树结构](./images/dom-structure.png)
+
+#### 解析算法
+
 ![dom生成流程](./images/dommodel.png)
 
-![栗子DOM树](DOMtree.png)
+解析由两步组成：拆分和DOM树构建
+
+1. 拆分算法
+
+拆分的结果是文档碎片化，可以把拆分算法想象成一个“状态机”，每输入一个字符，状态都会有相应的变化，要完全整明白这个有点困难，我们来个简单例子：
+
+```html
+<html>
+	<body>
+		<p>hello world</p>
+	</body>
+</html>
+```
+
+初始状态为*Data state*，当碰到'<'时，状态变为'标签开始'，紧接着标签名时状态为'标签名'，直到字符'>'，这之前所有字符都连到之前字符后，例子中就是`html`。当'>'遇到时，
+当前token结束，状态切换为'Data state`，接下来就是对整个文档的一步步拆分了。
+
+![拆分算法](./images/parse-process.png)
+
+
+#### DOM树构建算法
+
+首先明白一点，当拆分完成时，我们的DOM树也就构建成功了，第一个状态是'初始态',当接收到`html`时，状态切换到'before html`,这会建立一个`HTMLHtmlElement`元素。后面的步骤有点类似，我们看图说话：
+
+![树构建算法](./images/dom-process.gif)
+
+
+
 
 
 
