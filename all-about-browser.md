@@ -128,8 +128,6 @@ HTML解析生产为DOM树，由元素和属性节点组成，DOM树是向外界�
 
 上述代码会是解析成这个样子：
 
-![栗子DOM树](DOMtree.png)
-
 DOM树:
 
 ![DOM树结构](./images/dom-structure.png)
@@ -163,6 +161,8 @@ DOM树:
 首先明白一点，当拆分完成时，我们的DOM树也就构建成功了，第一个状态是'初始态',当接收到`html`时，状态切换到'before html`,这会建立一个`HTMLHtmlElement`元素。后面的步骤有点类似，我们看图说话：
 
 ![树构建算法](./images/dom-process.gif)
+
+
 
 
 
