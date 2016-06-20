@@ -371,6 +371,44 @@ Webkit模型存储，在重绘之前，webkit会暂存之前的盒模型为位�
 
 ![盒模型](./images/box_model.jpg)
 
+#### 定位方式
+
+三种定位方式：
+
+1. Normal(正常流): 根据文档中位置定位，这意味着元素在渲染树和DOM树中位置类似，并根据它盒类型和维度来绘制。
+2. Float(浮动): 元素首先会像正常流一般布局元素，然后尽可能使它向左或右移动。
+3. Absolute(绝对化): 元素渲染树和DOM树种的位置不同。
+
+定位方式是有`display`和`float`属性决定的。
+
+- `static`和`relative`引起普通流
+- `absolute`和`fixed`引起绝对定位
+
+盒模型的布局由以下决定：
+
+- 盒类型
+- 盒维度
+- 定位方式
+- 额外的信息，如图片大小或视窗大小等
+
+#### 盒类型
+
+块盒模型：形成一个块--有自己的方块大小
+
+![块盒模型](./images/block-element.png)
+
+行内模型： 没有自己的块，但总是会是包含于某个块中
+
+![行内模型](./images/inline-element.png)
+
+块级元素竖直方向排布，行内模型则是水平方向排列：
+
+![排列方式](./images/position-element.png)
+
+
+后面这一段其实干活不多，且看我另外的资源：
+
+[布局方式](https://github.com/ivanberry/CSS-Knowledge/issues/12)
 
 
 
