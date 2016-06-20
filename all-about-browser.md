@@ -215,12 +215,84 @@ webkit使用**Flex and Bison**来自动解析我们的CSS文件，*Bison*从底�
 
 #### 脚本和样式规则的执行顺序
 
-web的世界是同步的。文档中遇到`script`标签时，会执行基本文件，这个时候时候HTML文档解析是会搁置的，直到脚本执行完成。假如，加载的脚本是外部资源，
+web的世界是同步的。文档中遇到`script`标签时，会执行脚本文件，这个时候时候HTML文档解析是会搁置的，直到脚本执行完成。假如，加载的脚本是外部资源，
 那必须首先从网络获取资源，这个过程同样是同步的，同样HTML解析过程也会搁置直到资源获取完成。新的规范中可以给`script`添加`defer`标签，这样子就不
 会搁置文档的解析，而会在文档解析完成后执行，这是大大的好呀（之前的办法都是就将`script`标签放置都文档末尾，人工的让它不会再文档解析中途被解析，
 这肯定也是充分了解原理，机制的人提出的聪明办法），HTML5规范中更是添加了能实现异步和多线程的方法。
 
-####
+#### 猜测性解析
+
+浏览器对解析过程有自己的优化，当执行我们的脚本时，会有另外的线程来完成文档的解析，同时找出文档还需获取哪些资源，通过这种方式，这些资源就能并行下载
+这样就能改善实现的速度。
+
+*注意*：浏览器本身的优化只针对外部资源（脚本，样式表和图片等），它不能修改DOM树。
+
+#### 样式表
+
+样式表和HTML不同，它拥有自己的一套模型，理论上说起，DOM树不会改变DOM树结构，应该没有理由为等待它而暂停文档的解析。然后，这仅仅是理论上，有这么一种情况，当
+我们在文档解析过程中，脚本需要得知某元素样式的信息，而这个时候样式根本没有加载完成，显然这会导致错误，这是一个很普遍的事情，更有，假如在脚本需要对某个元素
+添加类名，而css还没加载！这......Firefox会在有样式加载和解析的过程中屏蔽掉一切脚本，而Webkit系则会屏蔽那些访问某样式属性会被未加载样式表影响的脚本,听起来这个好像更厉害
+一样。
+
+### 渲染树构建
+
+当DOM树构建时，浏览器还在构建另外一个”美丽“的树--渲染树：定位可视元素。这是对文档的可视化渲染过程，目的是使得可视元素在正确的位置能够显示。
+
+渲染树中的元素在Firefox和Chrome中有不同的称呼：Frames和render or render object。渲染对象知道怎么排布和绘制本身和它包含的元素，我们看看`Webkit's RenderObject`的定义：
+
+```js
+class RenderObject{
+		virtual void layout();
+		virtual void paint(PaintInfo);
+		Node* node //the DOM node
+		RenderStyle* style //the computed style
+		RenderLayer* containerLayer //the containing z-index layer
+}
+```
+
+每一个渲染对象对视和CSS盒模型对应的盒子，盒子的类型是根据样式属性`display`来决定的，我们可以了解下：
+
+```js
+RenderObject* RenderObject::createObject(Node* node, RenderStyle* style)
+{
+		    Document* doc = node->document();
+		    RenderArena* arena = doc->renderArena();
+		    ...
+		    RenderObject* o = 0;
+
+			    switch (style->display()) {
+			        case NONE:
+			            break;
+			        case INLINE:
+			            o = new (arena) RenderInline(node);
+			            break;
+			        case BLOCK:
+			            o = new (arena) RenderBlock(node);
+			            break;
+			        case INLINE_BLOCK:
+			            o = new (arena) RenderBlock(node);
+			            break;
+			        case LIST_ITEM:
+																																								            				   	o = new (arena) RenderListItem(node);
+																																																	break
+																																														       ...
+																																											       }
+
+																																											      return o;
+}
+```
+
+#### 渲染树和DOM树的关联
+
+渲染树和DOM树并不是一一对应的关系，只有可视元素才会出现在渲染树中，比如我们的`header`元素是不会出现在渲染树种的，因为它是`none`的，但是`display: hidden`的元素是会出现的。有那么一些元素本身很复杂，不可能用一个简单的方块来渲染它，比如`select`，它就由三个渲染器组成：一个是渲染显示区域，一个是下拉菜单还有一个就是按钮。还有就是多行文字也会出现多个渲染器的情况。
+还有一种情况就是*损坏*的HTML，根据CSS规范，行内元素只能包含块或者行内元素，如果混合油二者，那么**匿名盒子**就会跳出来，保护我们行内元素内的行内元素了（这听起来有点绕哈）。还有一些渲染对象对应一个DOM节点,但在渲染树种并不一定在同一个位置上，浮动和绝对定位元素脱离了文档流，就被放置在渲染树不同的位置，通过映射来反映真实的位置，来个图看看渲染树和DOM树的关联：
+
+![渲染树和DOM树的关联](./images/dom-with-render.png)
+
+
+
+ 
+
 
 
 
