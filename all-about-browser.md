@@ -417,3 +417,12 @@ Webkit模型存储，在重绘之前，webkit会暂存之前的盒模型为位�
 最后在Google开发者教程又看到一个图，挺好的大局：
 
 ![融合](./images/all-in-one.png)
+
+
+最后的文字总结：
+
+> Process HTML markup and build the DOM tree.
+> Process CSS markup and build the CSSOM tree.
+> Combine the DOM and CSSOM into a render tree.
+> Run layout on the render tree to compute geometry of each node.
+> Paint the individual nodes to the screen.
