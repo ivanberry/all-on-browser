@@ -2,11 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <title>浏览器学习测试</title>
-    <script src="//cdn.bootcss.com/jquery/3.0.0/core.js"></script>
-    <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.2/css/bootstrap.css" rel="stylesheet">
 </head>
+<style>
+    html {
+        border: 1px solid red;
+    }
+    body {
+        border: 1px solid orange;
+    }
+    button {
+        font-size: 1rem;
+        border: 1px solid green;
+    }
+</style>
 <body>
-    
+<button>Click!</button>
+<button id="color">Click!</button>
+<script>
+    var button = document.querySelector('button');
+    var html = document.querySelector('html');
+    var color = document.getElementById('color');
+
+    button.addEventListener('click', function() {
+        html.style.fontSize = 30 + 'px';
+    },false);
+
+    color.addEventListener('click', function() {
+        color.style.color = 'red';
+    },false);
+</script>
 </body>
 </html>
